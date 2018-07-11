@@ -38,6 +38,11 @@
   "Face used to New Message Marker."
   :group 'slack)
 
+;; TODO
+;; - add custom variable to enable this feature
+;; - fix 'new message' marker
+;; - fix `slack-buffer-goto-next-message', `slack-buffer-goto-prev-message'
+
 (defun slack-merge-same-sender ()
   (slack-if-let* ((buffer slack-current-buffer))
       (save-excursion
@@ -47,6 +52,7 @@
                  (prev-sender-id nil))
             (when current-sender-id
               (widen)
+              ;; FIXME use `slack-buffer-goto-prev-message' ?
               (forward-line -2)
               (setq prev-sender-id (get-text-property (point) 'sender-id))
               (when (and prev-sender-id
