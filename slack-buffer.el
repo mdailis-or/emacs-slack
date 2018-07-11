@@ -157,6 +157,7 @@
         (team (oref this team)))
     (lui-insert-with-text-properties
      (slack-message-to-string message team)
+     'sender-id (slack-message-sender-id message)
      'not-tracked-p not-tracked-p
      'ts (slack-ts message)
      'slack-last-ts lui-time-stamp-last

@@ -38,10 +38,30 @@
   "Face used to New Message Marker."
   :group 'slack)
 
+(defun slack-merge-same-sender ()
+  (slack-if-let* ((buffer slack-current-buffer))
+      (save-excursion
+        (save-restriction
+          (let* ((message-beg (point-min))
+                 (current-sender-id (get-text-property message-beg 'sender-id))
+                 (prev-sender-id nil))
+            (when current-sender-id
+              (widen)
+              (forward-line -2)
+              (setq prev-sender-id (get-text-property (point) 'sender-id))
+              (when (and prev-sender-id
+                         (string= current-sender-id prev-sender-id))
+                (goto-char message-beg)
+                (delete-region (1- message-beg)
+                               (1+ (line-end-position)))
+                (slack-buffer-update-marker-overlay buffer))
+              ))))))
+
 (define-derived-mode slack-message-buffer-mode slack-mode "Slack Message Buffer"
   (add-hook 'lui-pre-output-hook 'slack-buffer-buttonize-link nil t)
   (add-hook 'lui-pre-output-hook 'slack-add-face-lazy nil t)
   (add-hook 'lui-pre-output-hook 'slack-search-code-block nil t)
+  (add-hook 'lui-post-output-hook 'slack-merge-same-sender nil t)
   (add-hook 'lui-post-output-hook 'slack-display-image t t)
   ;; TODO move to `slack-room-buffer' ?
   (cursor-sensor-mode)
