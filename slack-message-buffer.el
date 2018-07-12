@@ -56,11 +56,12 @@
               (setq prev-sender-id (get-text-property (point) 'sender-id))
               (when (and prev-sender-id
                          (string= current-sender-id prev-sender-id))
+                (slack-buffer-delete-overlay buffer)
                 (goto-char message-beg)
-                (delete-region (1- message-beg)
+                (delete-region message-beg
                                (1+ (line-end-position)))
-                (slack-buffer-update-marker-overlay buffer))
-              ))))))
+                (slack-buffer-update-marker-overlay buffer)
+                )))))))
 
 (define-derived-mode slack-message-buffer-mode slack-mode "Slack Message Buffer"
   (add-hook 'lui-pre-output-hook 'slack-buffer-buttonize-link nil t)
