@@ -412,16 +412,21 @@
 
 (defun slack-buffer-next-point (start end ts)
   (cl-loop for i from start to end
-           if (and (string< ts
-                            (get-text-property i 'ts))
-                   (slack-buffer-header-p i))
+           if (let ((current-ts (get-text-property i 'ts)))
+                (message "current-ts: %s, ts: %s"
+                         current-ts
+                         ts)
+                (if (and ts current-ts)
+                    (string< ts current-ts)
+                  current-ts))
            return i))
 
 (defun slack-buffer-prev-point (start end ts)
   (cl-loop for i from start downto end
-           if (and (string< (get-text-property i 'ts)
-                            ts)
-                   (slack-buffer-header-p i))
+           if (let ((current-ts (get-text-property i 'ts)))
+                (if (and ts current-ts)
+                    (string< current-ts ts)
+                  current-ts))
            return i))
 
 (defun slack-buffer-ts-eq (start end ts)
