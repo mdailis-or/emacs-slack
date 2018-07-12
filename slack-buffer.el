@@ -154,10 +154,15 @@
 
 (defmethod slack-buffer-insert ((this slack-buffer) message &optional not-tracked-p)
   (let ((lui-time-stamp-time (slack-message-time-stamp message))
-        (team (oref this team)))
+        (team (oref this team))
+        (sender-id (slack-message-sender-id message)))
     (lui-insert-with-text-properties
-     (slack-message-to-string message team)
-     'sender-id (slack-message-sender-id message)
+     (propertize
+      (slack-message-to-string message team)
+      ;; NOTE: put 'sender-id property to message itself,
+      ;;       to use 'sender-id property in lui-pre-output-hook
+      'sender-id sender-id)
+     'sender-id sender-id
      'not-tracked-p not-tracked-p
      'ts (slack-ts message)
      'slack-last-ts lui-time-stamp-last

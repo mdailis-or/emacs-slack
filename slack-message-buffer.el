@@ -67,7 +67,7 @@
   (add-hook 'lui-pre-output-hook 'slack-buffer-buttonize-link nil t)
   (add-hook 'lui-pre-output-hook 'slack-add-face-lazy nil t)
   (add-hook 'lui-pre-output-hook 'slack-search-code-block nil t)
-  (add-hook 'lui-post-output-hook 'slack-merge-same-sender nil t)
+  (add-hook 'lui-pre-output-hook 'slack-merge-same-sender nil t)
   (add-hook 'lui-post-output-hook 'slack-display-image t t)
   ;; TODO move to `slack-room-buffer' ?
   (cursor-sensor-mode)
