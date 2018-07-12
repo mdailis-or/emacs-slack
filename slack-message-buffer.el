@@ -52,8 +52,7 @@
                  (prev-sender-id nil))
             (when current-sender-id
               (widen)
-              ;; FIXME use `slack-buffer-goto-prev-message' ?
-              (forward-line -2)
+              (slack-buffer-goto-prev-message)
               (setq prev-sender-id (get-text-property (point) 'sender-id))
               (when (and prev-sender-id
                          (string= current-sender-id prev-sender-id))
