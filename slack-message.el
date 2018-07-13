@@ -156,8 +156,6 @@
     (plist-put payload :reactions (append (plist-get payload :reactions) nil))
     (plist-put payload :attachments (append (plist-get payload :attachments) nil))
     (plist-put payload :pinned_to (append (plist-get payload :pinned_to) nil))
-    (if room
-        (plist-put payload :channel (oref room id)))
     (cl-labels
         ((create-message
           (payload)
