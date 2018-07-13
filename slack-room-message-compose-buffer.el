@@ -59,7 +59,7 @@
     buf))
 
 (defmethod slack-buffer-send-message ((this slack-room-message-compose-buffer) message)
-  (let ((buffer (slack-buffer-buffer this)))
+  (let ((buffer (slack-buffer-get-or-create this)))
     (with-slots (room team) this
       (slack-message-send-internal message (oref room id) team)
       (call-next-method))))

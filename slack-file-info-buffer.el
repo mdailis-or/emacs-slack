@@ -64,7 +64,7 @@
                        file
                        team)))
 
-(defmethod slack-buffer-buffer ((this slack-file-info-buffer))
+(defmethod slack-buffer-get-or-create ((this slack-file-info-buffer))
   (slack-if-let* ((buf (get-buffer (slack-buffer-name this))))
       (progn
         (with-current-buffer buf

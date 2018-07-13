@@ -41,7 +41,7 @@
     (slack-buffer-name 'slack-pinned-items-buffer
                        room team)))
 
-(defmethod slack-buffer-buffer ((this slack-pinned-items-buffer))
+(defmethod slack-buffer-get-or-create ((this slack-pinned-items-buffer))
   (slack-if-let* ((buf (get-buffer (slack-buffer-name this))))
       (progn
         (slack-pinned-items-buffer-insert-items this)

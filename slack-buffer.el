@@ -62,13 +62,13 @@
                   (slot-value team class))))
       (with-current-buffer buf slack-current-buffer)))
 
-(defmethod slack-buffer-buffer ((this slack-buffer))
+(defmethod slack-buffer-get-or-create ((this slack-buffer))
   (or (get-buffer (slack-buffer-name this))
       (slack-buffer-init-buffer this)))
 
 (defmethod slack-buffer-display ((this slack-buffer))
   (condition-case err
-      (funcall slack-buffer-function (slack-buffer-buffer this))
+      (funcall slack-buffer-function (slack-buffer-get-or-create this))
     (error (progn
              (slack-if-let* ((buf (get-buffer (slack-buffer-name this))))
                  (kill-buffer buf))
@@ -127,7 +127,7 @@
 
 (defmethod slack-buffer-replace ((this slack-buffer) message)
   (with-slots (team) this
-    (with-current-buffer (slack-buffer-buffer this)
+    (with-current-buffer (slack-buffer-get-or-create this)
       (lui-replace (slack-message-to-string message team)
                    (lambda ()
                      (equal (get-text-property (point) 'ts)
@@ -203,7 +203,7 @@
           (cl-labels
               ((after-success
                 ()
-                (with-current-buffer (slack-buffer-buffer this)
+                (with-current-buffer (slack-buffer-get-or-create this)
                   (let ((inhibit-read-only t))
                     (slack-buffer-delete-load-more-string this)
                     (slack-buffer-prepare-marker-for-history this)

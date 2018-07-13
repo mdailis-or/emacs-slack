@@ -109,7 +109,7 @@
     (slack-if-let* ((latest (oref room latest)))
         (oref latest ts))))
 
-(defmethod slack-buffer-buffer ((this slack-message-buffer))
+(defmethod slack-buffer-get-or-create ((this slack-message-buffer))
   (let ((buffer-already-exists-p (get-buffer (slack-buffer-name this)))
         (buffer (call-next-method))
         (last-read (slack-buffer-last-read this)))
@@ -302,7 +302,7 @@
                           (if has-more
                               (request-messages (oref latest-message ts))
                             (progn
-                              (with-current-buffer (slack-buffer-buffer this)
+                              (with-current-buffer (slack-buffer-get-or-create this)
                                 (let ((inhibit-read-only t))
                                   (slack-buffer-delete-overlay this)
                                   (delete-region (point-min)
@@ -328,7 +328,7 @@
       (cl-labels
           ((update-buffer
             (messages)
-            (with-current-buffer (slack-buffer-buffer this)
+            (with-current-buffer (slack-buffer-get-or-create this)
               (slack-buffer-widen
                (let ((inhibit-read-only t))
                  (goto-char (point-min))

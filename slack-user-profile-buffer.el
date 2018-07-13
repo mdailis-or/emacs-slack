@@ -40,7 +40,7 @@
     (slack-user-profile-buffer :team team
                                :user-id user-id)))
 
-(defmethod slack-buffer-buffer ((this slack-user-profile-buffer))
+(defmethod slack-buffer-get-or-create ((this slack-user-profile-buffer))
   (slack-if-let* ((buf (get-buffer (slack-buffer-name this))))
       (progn
         (slack-buffer--insert this)

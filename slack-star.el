@@ -242,7 +242,7 @@
        (insert-to-buffer (item)
                          (slack-if-let* ((buffer (slack-buffer-find 'slack-stars-buffer
                                                                     team)))
-                             (with-current-buffer (slack-buffer-buffer buffer)
+                             (with-current-buffer (slack-buffer-get-or-create buffer)
                                (slack-buffer-insert buffer item)))))
     (if (plist-get payload :file)
         (cl-labels

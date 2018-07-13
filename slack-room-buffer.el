@@ -65,7 +65,7 @@
             (message "Canceled"))))))
 
 (defmethod slack-buffer-message-delete ((this slack-room-buffer) ts)
-  (let ((buffer (slack-buffer-buffer this)))
+  (let ((buffer (slack-buffer-get-or-create this)))
     (with-current-buffer buffer
       (lui-delete #'(lambda () (equal (get-text-property (point) 'ts)
                                       ts))))))

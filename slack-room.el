@@ -466,7 +466,7 @@
           this team
           :after-success #'(lambda (&rest _ignore)
                              (tracking-add-buffer
-                              (slack-buffer-buffer
+                              (slack-buffer-get-or-create
                                (slack-create-message-buffer this team))))))))
 
 (cl-defmethod slack-room-history-request ((room slack-room) team &key oldest latest count after-success async)

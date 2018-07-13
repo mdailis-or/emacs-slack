@@ -117,7 +117,7 @@
       (slack-star-remove-star star ts team))))
 
 (defmethod slack-buffer-message-delete ((this slack-stars-buffer) ts)
-  (let ((buffer (slack-buffer-buffer this))
+  (let ((buffer (slack-buffer-get-or-create this))
         (inhibit-read-only t))
     (with-current-buffer buffer
       (slack-if-let* ((beg (slack-buffer-ts-eq (point-min) (point-max) ts))

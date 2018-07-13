@@ -127,7 +127,7 @@
 
 (cl-defmethod slack-buffer-update ((this slack-thread-message-buffer) message &key replace)
   (if replace (slack-buffer-replace this message)
-    (with-current-buffer (slack-buffer-buffer this)
+    (with-current-buffer (slack-buffer-get-or-create this)
       (slack-buffer-insert this message))))
 
 (defmethod slack-buffer-display-edit-message-buffer ((this slack-thread-message-buffer) ts)

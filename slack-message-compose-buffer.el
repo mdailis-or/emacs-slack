@@ -34,7 +34,7 @@
 (defclass slack-message-compose-buffer (slack-buffer) ())
 
 (defmethod slack-buffer-send-message ((this slack-message-compose-buffer) _message)
-  (let ((buffer (slack-buffer-buffer this)))
+  (let ((buffer (slack-buffer-get-or-create this)))
     (with-current-buffer buffer
       (kill-buffer)
       (if (> (count-windows) 1) (delete-window)))))

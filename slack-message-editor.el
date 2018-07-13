@@ -99,7 +99,7 @@
 
 (defun slack-message-cancel-edit ()
   (interactive)
-  (let ((buffer (slack-buffer-buffer slack-current-buffer)))
+  (let ((buffer (slack-buffer-get-or-create slack-current-buffer)))
     (with-current-buffer buffer
       (erase-buffer)
       (if (> (count-windows) 1) (delete-window)))))
