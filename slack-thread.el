@@ -152,8 +152,12 @@ Any other non-nil value: send to the room."
                                               (oref thread replies))
                                       :test #'string=)
                                      " "))
-               (text (format "\n%s reply from %s"
-                             (oref thread reply-count)
+               (reply-count (oref thread reply-count))
+               (text (format "\n%s %s from %s"
+                             reply-count
+                             (if (> reply-count 1)
+                                 "replies"
+                               "reply")
                              usernames)))
           (propertize text
                       'face '(:underline t)
